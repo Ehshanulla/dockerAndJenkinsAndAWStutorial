@@ -17,6 +17,7 @@ pipeline {
 
         stage('Build JAR') {
             steps {
+ 		cd SpringBootDockeDemo
                 sh "mvn clean package -DskipTests"
             }
         }
