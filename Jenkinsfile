@@ -27,10 +27,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('SpringBootDockeDemo') {
-                    bat """
-                    docker build -t %FULL_IMAGE% .
-                    docker tag %FULL_IMAGE% %DOCKERHUB_USER%/%IMAGE_NAME%:latest
-                    """
+                    bat "docker build -t %FULL_IMAGE% ."
+                    bat"docker tag %FULL_IMAGE% %DOCKERHUB_USER%/%IMAGE_NAME%:latest"
                 }
             }
         }
@@ -42,12 +40,10 @@ pipeline {
                     usernameVariable: 'USER',
                     passwordVariable: 'PASS'
                 )]) {
-                    bat """
-                    echo %PASS% | docker login -u %USER% --password-stdin
-                    docker push %FULL_IMAGE%
-                    docker push %DOCKERHUB_USER%/%IMAGE_NAME%:latest
-                    docker logout
-                    """
+                    bat "echo %PASS% | docker login -u %USER% --password-stdin"
+                    bat "docker push %FULL_IMAGE%"
+                    bat "docker push %DOCKERHUB_USER%/%IMAGE_NAME%:latest"
+                    bat "docker logout"
                 }
             }
         }
