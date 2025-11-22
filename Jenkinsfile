@@ -17,17 +17,20 @@ pipeline {
 
         stage('Build JAR') {
             steps {
- 		cd SpringBootDockeDemo
-                sh "mvn clean package -DskipTests"
+                dir('SpringBootDockeDemo') {
+                    sh "mvn clean package -DskipTests"
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh """
-                docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:${VERSION} .
-                docker tag ${DOCKERHUB_USER}/${IMAGE_NAME}:${VERSION} ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
-                """
+                dir('SpringBootDockeDemo') {
+                    sh """
+                    docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:${VERSION} .
+                    docker tag ${DOCKERHUB_USER}/${IMAGE_NAME}:${VERSION} ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
+                    """
+                }
             }
         }
 
