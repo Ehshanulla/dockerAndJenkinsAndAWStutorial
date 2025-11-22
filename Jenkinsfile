@@ -18,7 +18,7 @@ pipeline {
         stage('Build JAR') {
             steps {
                 dir('dockerAndJenkinsAndAWStutorial/SpringBootDockeDemo') {
-                    sh "mvn clean package -DskipTests"
+                    bat "mvn clean package -DskipTests"
                 }
             }
         }
@@ -26,7 +26,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('dockerAndJenkinsAndAWStutorial/SpringBootDockeDemo') {
-                    sh """
+                    bat """
                     docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:${VERSION} .
                     docker tag ${DOCKERHUB_USER}/${IMAGE_NAME}:${VERSION} ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
                     """
@@ -41,7 +41,7 @@ pipeline {
                     usernameVariable: 'USER',
                     passwordVariable: 'PASS'
                 )]) {
-                    sh """
+                    bat """
                     echo "$PASS" | docker login -u "$USER" --password-stdin
                     docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:${VERSION}
                     docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
