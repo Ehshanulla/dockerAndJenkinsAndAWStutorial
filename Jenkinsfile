@@ -17,7 +17,7 @@ pipeline {
 
         stage('Build JAR') {
             steps {
-                dir('SpringBootDockeDemo') {
+                dir('dockerAndJenkinsAndAWStutorial/SpringBootDockeDemo') {
                     sh "mvn clean package -DskipTests"
                 }
             }
@@ -25,7 +25,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                dir('SpringBootDockeDemo') {
+                dir('dockerAndJenkinsAndAWStutorial/SpringBootDockeDemo') {
                     sh """
                     docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:${VERSION} .
                     docker tag ${DOCKERHUB_USER}/${IMAGE_NAME}:${VERSION} ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
